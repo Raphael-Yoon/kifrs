@@ -59,7 +59,7 @@ def init_driver():
     """Selenium 드라이버 초기화 (실제 브라우저처럼 보이기)"""
     chrome_options = Options()
     # headless를 쓰면 차단될 확률이 높으므로 일단 보면서 실행 (필요 시 headless 추가)
-    # chrome_options.add_argument("--headless") 
+    chrome_options.add_argument("--headless") 
     chrome_options.add_argument("--window-size=1280,800")
     chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
     chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
@@ -69,8 +69,11 @@ def init_driver():
     driver = webdriver.Chrome(service=service, options=chrome_options)
     return driver
 
-def crawl_board_selenium(driver, page_name, max_pages=3):
+def crawl_board_selenium(driver, page_name, max_pages=3, existing_nums=None):
     """Selenium을 이용한 게시판 크롤링"""
+    if existing_nums is None:
+        existing_nums = set()
+        
     print(f"[{page_name}] 크롤링 시작...")
     results = []
     
@@ -79,32 +82,38 @@ def crawl_board_selenium(driver, page_name, max_pages=3):
     
     for page in range(1, max_pages + 1):
         print(f"  - {page} 페이지 이동 중...")
-        # 페이지 이동 URL (ASP 파라미터 구조에 맞춤)
-        # 예: qna.asp?rWork=TblList&rType=0&rGotoPage=1
         target_url = f"{base_page_url}?rWork=TblList&rType=0&rGotoPage={page}"
         driver.get(target_url)
-        time.sleep(2) # 페이지 로딩 대기
+        time.sleep(2)
         
-        # 목록 파싱
         rows = driver.find_elements(By.CSS_SELECTOR, "table.board_list tbody tr")
         
         if not rows:
             print("    게시물이 없습니다.")
             break
             
-        # 현재 페이지의 링크들을 수집 (StaleElementReferenceException 방지 위해 링크만 먼저 저장)
         items_to_crawl = []
+        all_duplicate = True
+        
         for row in rows:
             try:
-                num = row.find_element(By.CSS_SELECTOR, "td.num").text.strip()
-                if not num.isdigit(): continue # 공지 제외
+                num_elem = row.find_element(By.CSS_SELECTOR, "td.num")
+                num_str = num_elem.text.strip()
+                if not num_str.isdigit(): continue
+                
+                num = int(num_str)
+                
+                # 이미 수집된 번호면 스킵
+                if str(num) in existing_nums:
+                    continue
+                
+                all_duplicate = False
                 
                 subject_elem = row.find_element(By.CSS_SELECTOR, "td.subject a")
                 title = subject_elem.text.strip()
                 link = subject_elem.get_attribute("href")
                 date = row.find_element(By.CSS_SELECTOR, "td.date").text.strip()
                 
-                # Q&A 전용 필드
                 try:
                    category = row.find_element(By.CSS_SELECTOR, "td.category").text.strip()
                 except: category = ""
@@ -118,7 +127,7 @@ def crawl_board_selenium(driver, page_name, max_pages=3):
                 except: condition = ""
                 
                 items_to_crawl.append({
-                    'num': int(num),
+                    'num': num,
                     'title': title,
                     'link': link,
                     'date': date,
@@ -130,63 +139,54 @@ def crawl_board_selenium(driver, page_name, max_pages=3):
                 print(f"ROW 파싱 에러: {e}")
                 continue
         
-        if not items_to_crawl:
-            print("    수집할 항목이 없습니다.")
+        if all_duplicate and rows:
+            print("    현재 페이지의 모든 항목이 이미 수집되었습니다. 크롤링을 중단합니다.")
             break
             
-        print(f"    {len(items_to_crawl)}개의 항목을 발견했습니다. 상세 수집 시작...")
+        if not items_to_crawl:
+            print("    수집할 새 항목이 없습니다.")
+            continue
+            
+        print(f"    {len(items_to_crawl)}개의 새 항목을 발견했습니다. 상세 수집 시작...")
         
-        # 상세 페이지 순회
         for item in items_to_crawl:
             try:
-                # 이미 수집된 번호인지 확인하는 로직은 구글 시트 업데이트 단계에서 수행하거나, 
-                # 여기서 미리 체크해서 skip할 수도 있음. (지금은 일단 다 수집하여 넘김)
-                
                 driver.get(item['link'])
-                time.sleep(1.5) # 부하 방지
+                time.sleep(1.5)
                 
-                # 상세 페이지 내용 파싱
-                # 구조를 모르므로 여러 가지 시도
-                content_html = driver.page_source
-                soup = BeautifulSoup(content_html, 'html.parser')
+                soup = BeautifulSoup(driver.page_source, 'html.parser')
                 
-                # 1. 본문 찾기 시도
-                # 보통 .board_read 혹은 .con_box 내부에 있음
-                # 정확한 셀렉터를 모르므로 .board_view, .view_content 등 일반적인 이름 시도
                 question_body = ""
-                
-                # 예상되는 본문 영역 후보군
-                candidates = ['.board_view', '.view_content', '.con_box .board_read', '.board_read tr td', '.board_list'] 
-                # (ASP 상세페이지가 table 구조일 수 있음)
-                
-                # 테이블 구조인 경우: <th>제목</th><td>내용</td> 구조일 가능성
-                # 소스 확인 결과 목록이 table.board_list 였으므로 상세도 table.board_view 등의 클래스일 수 있음.
-                
-                # 좀 더 광범위하게 본문 텍스트 추출 시도 (임시)
-                # K-ICFR 사이트 특성상 #contents 안의 내용을 긁는게 안전
-                content_div = soup.select_one('#contents .board_view') or soup.select_one('#contents table')
-                if content_div:
-                     question_body = content_div.get_text(separator='\n').strip()
-                else:
-                    # 못 찾으면 메인 컨텐츠 영역 전체라도
-                     c_box = soup.select_one('#contents')
-                     if c_box: question_body = c_box.get_text(separator='\n').strip()
-                
-                # 답변 찾기
                 answer_body = ""
-                # 답변이 댓글 형태인지 본문 하단인지 불분명. 
-                # "답변" 이라는 텍스트가 포함된 영역을 찾거나..
-                # 일단 전체 본문에 포함되어 있을 가능성이 높음 (ASP 게시판은 보통 원글+답글이 별도 row거나 한 페이지에 보임)
                 
-                # 데이터 정제
+                if page_name == 'qna.asp':
+                    # Q&A 본문 추출
+                    q_div = soup.select_one('.b_content')
+                    if q_div:
+                        question_body = q_div.get_text(separator='\n').strip()
+                    
+                    # Q&A 답변 추출
+                    a_div = soup.select_one('.b_con_re .bcr_article')
+                    if a_div:
+                        answer_body = a_div.get_text(separator='\n').strip()
+                        # 답변 날짜가 있으면 추가
+                        a_date = soup.select_one('.b_con_re .bcr_date')
+                        if a_date:
+                            answer_body = f"[답변일: {a_date.get_text().strip()}]\n{answer_body}"
+                else:
+                    # FAQ 본문 추출
+                    f_div = soup.select_one('.b_content')
+                    if f_div:
+                        question_body = f_div.get_text(separator='\n').strip()
+                
                 results.append({
                     '번호': item['num'],
                     '분류': item['category'],
                     '제목': item['title'],
                     '등록일': item['date'],
                     '작성자': item['name'],
-                    '질문 본문': question_body,  # 분리가 안되면 전체 내용
-                    '답변 본문': answer_body,     # 분리 로직 보완 필요
+                    '질문 본문': question_body,
+                    '답변 본문': answer_body,
                     '처리현황': item['condition'],
                     'URL': item['link']
                 })
@@ -194,10 +194,6 @@ def crawl_board_selenium(driver, page_name, max_pages=3):
             except Exception as e:
                 print(f"    상세 페이지({item['num']}) 에러: {e}")
                 
-            # 다시 목록으로 돌아갈 필요 없음 (바로 다음 link로 get 하므로)
-    
-        # 다음 페이지 루프
-        
     return results
 
 def update_sheet_data(worksheet, new_data):
@@ -251,13 +247,23 @@ def main():
         # Q&A 처리
         print("\n>> Q&A 수집")
         ws_qna = open_worksheet(client, SPREADSHEET_NAME, 'Q&A')
-        data_qna = crawl_board_selenium(driver, 'qna.asp', max_pages=3)
+        
+        # 기존 번호 가져오기
+        existing_qna = ws_qna.get_all_records()
+        existing_qna_nums = {str(row['번호']) for row in existing_qna if '번호' in row}
+        
+        data_qna = crawl_board_selenium(driver, 'qna.asp', max_pages=96, existing_nums=existing_qna_nums)
         update_sheet_data(ws_qna, data_qna)
         
         # FAQ 처리
         print("\n>> FAQ 수집")
         ws_faq = open_worksheet(client, SPREADSHEET_NAME, 'FAQ')
-        data_faq = crawl_board_selenium(driver, 'faq.asp', max_pages=3)
+        
+        # 기존 번호 가져오기
+        existing_faq = ws_faq.get_all_records()
+        existing_faq_nums = {str(row['번호']) for row in existing_faq if '번호' in row}
+        
+        data_faq = crawl_board_selenium(driver, 'faq.asp', max_pages=4, existing_nums=existing_faq_nums)
         update_sheet_data(ws_faq, data_faq)
         
     finally:

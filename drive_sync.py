@@ -48,7 +48,7 @@ def get_or_create_folder(service, folder_name):
         folder = service.files().create(body=folder_metadata, fields='id').execute()
         return folder.get('id')
 
-def upload_to_drive(file_path, folder_name="Stock_Analysis_Results"):
+def upload_to_drive(file_path, folder_name="K-Sox"):
     """파일을 구글 드라이브 특정 폴더에 업로드"""
     try:
         service = get_drive_service()
@@ -86,7 +86,7 @@ def upload_to_drive(file_path, folder_name="Stock_Analysis_Results"):
         print(f"구글 드라이브 업로드 중 오류 발생: {e}")
         return None
 
-def create_google_doc(title, content, folder_name="Stock_Analysis_Results"):
+def create_google_doc(title, content, folder_name="K-Sox"):
     """마크다운 또는 HTML 내용을 구글 문서(Google Docs)로 생성 (서식 보존)"""
     try:
         service = get_drive_service()
@@ -249,7 +249,7 @@ def download_from_drive(file_id):
         print(f"구글 드라이브 다운로드 중 오류 발생: {e}")
         return None
 
-def list_files_in_folder(folder_name="Stock_Analysis_Results"):
+def list_files_in_folder(folder_name="K-Sox"):
     """구글 드라이브 특정 폴더의 파일 목록 가져오기"""
     try:
         service = get_drive_service()
