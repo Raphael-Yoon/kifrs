@@ -1,0 +1,304 @@
+
+
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=euc-kr">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>내부회계관리제도운영위원회 - Q&amp;A</title>
+    
+    <meta name="description" content="내부회계, 내부회계관리제도, 내부회계관리제도모범규준, 내부회계관리제도운영위원회" />
+    <meta name="author" content="한국상장회사협의회" />
+    <meta name="copyright" content="(사)한국상장회사협의회 All rights reserved" />
+    <meta name="naver-site-verification" content="c51a541bdc3b1a99793248a96d70bbff88c32fc0"/>
+    <meta name="google-site-verification" content="QaIEZkBm3S61gMmv4tRZKWEvkRDfyumIhfKF8eZGNkc" />
+    
+    
+    <link rel="stylesheet" href="../../lib/css/reset.css">
+    <link rel="stylesheet" href="../../lib/css/board.css">
+    <link rel="stylesheet" href="../../lib/css/icfr.css">
+    <link rel="stylesheet" href="../../lib/css/swiper.min.css">
+    
+    <script type="text/javascript" src="../../lib/js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../../lib/js/jquery.flexslider.js"></script>
+    <script type="text/javascript" src="../../lib/js/swiper.jquery.min.js"></script>    
+    <script type="text/javascript" src="../../lib/se2.3.0/js/HuskyEZCreator.js" charset="utf-8"></script>
+    
+    
+    <!--[if lt IE 9]>
+    <script src="../../lib/js/html5shiv.js"></script>
+    <script src="../../lib/js/respond.js"></script>
+    <link rel="stylesheet" href="../../lib/css/ie8.css">	
+    <![endif]-->
+  </head>
+<body>
+<!--[if lte IE 8]>
+    <div style="width: 100%; height: 100px; font-size: 15px; font-weight: bold; text-align:center; padding: 20px; background:#00acd4; color:#fff; line-height:1.5">
+	본회 웹사이트는 마이크로소프트 지원이 종료된 <span style="color:#00325a">Internet Explorer 8 이하</span>에서는 정상적으로 표시되지 않습니다. <br>
+	최신 브라우저로 업그레이드 해주시길 바랍니다. <br><br>
+	<a href="http://windows.microsoft.com/ko-kr/internet-explorer/download-ie" target="_blank" style="text-decoration:underline;">지금 업데이트 하기</a>	
+	</div>	
+<![endif]-->
+	
+<script language="JavaScript">
+String.prototype.trim = function() {
+  return this.replace(/(^\s*)|(\s*$)/g, "");
+}
+</script>
+
+<script language="javascript">
+function KeyCheckTop() {
+  if (event.keyCode==13) CallSchTop();
+}
+	
+function CallSchTop() {
+  var bCheck = true;
+
+  if ((bCheck == true) && (document.all.topschtext.value.trim() == "")) {
+    alert("검색어를 입력하여 주십시요");
+    bCheck = false;
+  }
+
+  if (bCheck == true) {
+  	var sParam = "";
+  	sParam = sParam + "&rSchKey=title";
+  	sParam = sParam + "&rSchText=" + document.all.topschtext.value.trim();
+
+  	window.location = "../../sub/menu/search.asp?rWork=TblList"+sParam;
+  }
+}
+</script>
+
+<div id="skip">
+	<a href="#lnb" class="notxt">메인메뉴 바로가기</a> <a href="#contents" class="notxt">본문으로 바로가기</a>
+</div>
+
+<header>
+	
+<div class="topmenu">
+	<div class="wrapper">
+		<a href="../../index.asp"><h1>내부회계관리제도운영위원회</h1></a>
+		<div id="lnb">
+			<button>Menu</button>
+			<ul class="nav">				
+        <li ><a href="../../sub/menu/guideline.asp">모범규준</a></li>				
+				<li class="active"><a href="../../sub/menu/qna.asp">Q&amp;A</a></li>
+				<li ><a href="../../sub/menu/faq.asp">FAQ</a></li>
+        <li ><a href="../../sub/menu/data.asp">자료실</a></li>
+        <li ><a href="../../sub/menu/purpose.asp">운영위 소개</a></li>
+				<li ><a href="../../sub/menu/notice.asp">공지사항</a></li>
+			</ul>
+			
+      <div class="search_tab">
+        <a href="#search_box" id="search_pop"><img src="../../img/icon_search_1.png"></a>
+        <!-- popup --> 
+        <a href="#x" class="overlay" id="search_box"></a>
+        <div class="s_popup">
+          <fieldset>
+			    <legend>검색영역</legend>
+			    <input type="text" id="topschtext" name="topschtext" onKeyPress="javascript:KeyCheckTop();" placeholder="검색어를 입력하세요">
+			    <a onclick="javascript:CallSchTop();"><img src="../../img/icon_search_2.png" alt="검색하기"></a>
+				  </fieldset>
+          <a class="close" href="#close"></a> 
+        </div>                               
+      </div><!-- search_tab -->
+      
+		</div><!-- lnb -->  
+	</div><!-- wrapper -->
+</div><!-- topmenu -->
+
+</header>
+
+
+<script language="javascript">
+function KeyCheck() {
+  if (event.keyCode==13) CallSch();
+}
+	
+function CallSch() {
+	var sParam = "";
+	sParam = sParam + "&rSchText=" + document.all.schtext.value.trim();
+	sParam = sParam + "&rType=0";
+
+	window.location = "qna.asp?rWork=TblList"+sParam;
+}
+</script>
+
+<div id="contents" class="data">
+  <div class="con_tit">Q&amp;A</div>
+  <div class="con_box">
+	  <div class="wrapper">	  
+      <ul class="nav_category nc3">
+				<li rel="tab1" class="active"><a href="qna.asp?rWork=TblList&rType=0">전체보기</a></li>
+				<li rel="tab2" ><a class="cate18" href="qna.asp?rWork=TblList&rType=1"><span class="emphasis">新</span>모범규준<span class="date">(2018.6)</span></a></li>
+				<li rel="tab3" ><a class="cate12" href="qna.asp?rWork=TblList&rType=2">모범규준<span class="date">(2012.12)</span></a></li>
+			</ul> 	  	
+	
+		<div class="board_top">
+			<p class="result">총 <strong class="blt">955</strong> 건</p>				
+			<div class="searchbox">
+				<fieldset class="search">
+					<legend class="notxt">게시판 내 검색</legend>										
+										
+					<input type="text" id="schtext" name="schtext" value="" onKeyPress="javascript:KeyCheck();" title="검색어 입력">
+					<a class="btn bb01" onClick="javascript:CallSch();">검색</a>
+				</fieldset>
+			</div>			<!-- /searchbox -->
+		</div>
+		
+		<table class="board_list">			
+			<caption>Q&amp;A</caption>
+			<thead>
+				<tr>
+          <th width="6%" scope="col" class="num">번호</th>
+          <th width="8%" scope="col" class="category">구분</th>
+          <th width="60%" scope="col" class="subject">제목</th>
+          <th width="8%" scope="col" class="condition">처리현황</th>
+          <th width="10%" scope="col" class="date">일자</th>
+          <th width="8%" scope="col" class="name">작성자</th>					
+				</tr>
+			</thead>
+			<tbody>
+					
+				<tr>
+          <td class="num">955</td>
+          <td class="category"><span class="cate_02">新모범규준</span></td>
+          <td class="subject"><a href="qna.asp?rWork=TblRead&rNo=976&rGotoPage=1&rSchText=&rType=0">ERP 변경 시 내부회계 설계평가 수행 범위 관련</a></td>
+          <td class="condition"><span class='qna_01'>접수대기</span></td>
+          <td class="date">2026-01-15</td>
+          <td class="name">조○○</td>
+				</tr>
+					
+				<tr>
+          <td class="num">954</td>
+          <td class="category"><span class="cate_02">新모범규준</span></td>
+          <td class="subject"><a href="qna.asp?rWork=TblRead&rNo=975&rGotoPage=1&rSchText=&rType=0">대표이사 1인 기업의 경우 운영실태보고 작성 문의</a></td>
+          <td class="condition"><span class='qna_01'>접수대기</span></td>
+          <td class="date">2026-01-09</td>
+          <td class="name">양○○</td>
+				</tr>
+					
+				<tr>
+          <td class="num">953</td>
+          <td class="category"><span class="cate_02">新모범규준</span></td>
+          <td class="subject"><a href="qna.asp?rWork=TblRead&rNo=974&rGotoPage=1&rSchText=&rType=0">대형비상장주식회사의 운영 기준</a></td>
+          <td class="condition"><span class='qna_02'>처리중</span></td>
+          <td class="date">2025-12-31</td>
+          <td class="name">윤○○</td>
+				</tr>
+					
+				<tr>
+          <td class="num">952</td>
+          <td class="category"><span class="cate_02">新모범규준</span></td>
+          <td class="subject"><a href="qna.asp?rWork=TblRead&rNo=973&rGotoPage=1&rSchText=&rType=0">내부회계 관리제도 변화 사항 관련 질문</a></td>
+          <td class="condition"><span class='qna_02'>처리중</span></td>
+          <td class="date">2025-12-24</td>
+          <td class="name">김○○</td>
+				</tr>
+					
+				<tr>
+          <td class="num">951</td>
+          <td class="category"><span class="cate_02">新모범규준</span></td>
+          <td class="subject"><a href="qna.asp?rWork=TblRead&rNo=972&rGotoPage=1&rSchText=&rType=0">Supporting Tool의 scope 여부</a></td>
+          <td class="condition"><span class='qna_02'>처리중</span></td>
+          <td class="date">2025-12-23</td>
+          <td class="name">김○○</td>
+				</tr>
+					
+				<tr>
+          <td class="num">950</td>
+          <td class="category"><span class="cate_02">新모범규준</span></td>
+          <td class="subject"><a href="qna.asp?rWork=TblRead&rNo=971&rGotoPage=1&rSchText=&rType=0">통제 별 평가기준일의 동일성 문의</a></td>
+          <td class="condition"><span class='qna_03'>완료</span></td>
+          <td class="date">2025-12-17</td>
+          <td class="name">조○○</td>
+				</tr>
+					
+				<tr>
+          <td class="num">949</td>
+          <td class="category"><span class="cate_02">新모범규준</span></td>
+          <td class="subject"><a href="qna.asp?rWork=TblRead&rNo=970&rGotoPage=1&rSchText=&rType=0">대사 통제의 운영효과성 테스트 방법 및 증빙 문서화 요건에 대한 질의</a></td>
+          <td class="condition"><span class='qna_03'>완료</span></td>
+          <td class="date">2025-12-14</td>
+          <td class="name">김○○</td>
+				</tr>
+					
+				<tr>
+          <td class="num">948</td>
+          <td class="category"><span class="cate_02">新모범규준</span></td>
+          <td class="subject"><a href="qna.asp?rWork=TblRead&rNo=969&rGotoPage=1&rSchText=&rType=0">운영평가 시 모집단이 동일한 별개 통제들의 샘플링 및 증빙 확인 방법 문의</a></td>
+          <td class="condition"><span class='qna_03'>완료</span></td>
+          <td class="date">2025-12-14</td>
+          <td class="name">김○○</td>
+				</tr>
+					
+				<tr>
+          <td class="num">947</td>
+          <td class="category"><span class="cate_02">新모범규준</span></td>
+          <td class="subject"><a href="qna.asp?rWork=TblRead&rNo=968&rGotoPage=1&rSchText=&rType=0">역합병에서 회계상 취득자가 내부회계관리제도 적용대상이 아닌 경우 유예가능 여부 문의</a></td>
+          <td class="condition"><span class='qna_03'>완료</span></td>
+          <td class="date">2025-12-04</td>
+          <td class="name">조○○</td>
+				</tr>
+					
+				<tr>
+          <td class="num">946</td>
+          <td class="category"><span class="cate_02">新모범규준</span></td>
+          <td class="subject"><a href="qna.asp?rWork=TblRead&rNo=967&rGotoPage=1&rSchText=&rType=0">내부회계관리제도 절차문의</a></td>
+          <td class="condition"><span class='qna_03'>완료</span></td>
+          <td class="date">2025-11-24</td>
+          <td class="name">이○○</td>
+				</tr>
+				
+ 			</tbody>
+		</table>
+			
+		<div class="under_btnarea">
+			<a href="qna.asp?rWork=TblInsert" class="btn bb02 f_r">글쓰기</a>
+
+			<div class="paging">
+  		
+          <a class="pg_on" title="현재 페이지입니다.">1</a>
+         
+          <a href="qna.asp?rWork=TblList&rGotoPage=2&rSchText=&rType=0" title="2페이지로 이동">2</a>
+         
+          <a href="qna.asp?rWork=TblList&rGotoPage=3&rSchText=&rType=0" title="3페이지로 이동">3</a>
+         
+          <a href="qna.asp?rWork=TblList&rGotoPage=4&rSchText=&rType=0" title="4페이지로 이동">4</a>
+         
+          <a href="qna.asp?rWork=TblList&rGotoPage=5&rSchText=&rType=0" title="5페이지로 이동">5</a>
+         
+          <a href="qna.asp?rWork=TblList&rGotoPage=6&rSchText=&rType=0" title="6페이지로 이동">6</a>
+         
+          <a href="qna.asp?rWork=TblList&rGotoPage=7&rSchText=&rType=0" title="7페이지로 이동">7</a>
+         
+          <a href="qna.asp?rWork=TblList&rGotoPage=8&rSchText=&rType=0" title="8페이지로 이동">8</a>
+         
+          <a href="qna.asp?rWork=TblList&rGotoPage=9&rSchText=&rType=0" title="9페이지로 이동">9</a>
+         
+          <a href="qna.asp?rWork=TblList&rGotoPage=10&rSchText=&rType=0" title="10페이지로 이동">10</a>
+        
+        <a href="qna.asp?rWork=TblList&rGotoPage=96&rSchText=&rType=0" title="끝페이지로 이동">..96</a>	
+        <a class="pg_next" href="qna.asp?rWork=TblList&rGotoPage=11&rSchText=&rType=0">다음 10개 페이지</a>
+      						
+			</div><!-- /paging -->
+		</div><!-- /under_btnarea -->	
+		
+	  </div><!-- /wrapper -->
+  </div><!-- /con_box -->
+</div><!-- /contents --> 
+
+
+<footer id="footer">
+	<div class="wrapper">		
+		<div class="klca">
+		<img src="../../img/klcalogo.png" alt="한국상장회사협의회">
+		<address>
+		 04151 서울 마포구 독막로 279(대흥동) 상장회사회관 T.02-2087-7000<br>
+		Copyright ⓒ2018 Korea Listed Companies Association. All Rights Reserved.
+		</address>
+		</div>
+	</div><!-- /wrapper --> 
+</footer>
+</body>
+</html>
